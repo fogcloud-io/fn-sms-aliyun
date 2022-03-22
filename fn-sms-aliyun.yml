@@ -1,0 +1,13 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  fn-sms-aliyun:
+    lang: go
+    handler: ./fn-sms-aliyun
+    image: fn-sms-aliyun:latest
+    build_args:
+      GO111MODULE: on
+      GOPROXY: "https://goproxy.cn,direct"  
+

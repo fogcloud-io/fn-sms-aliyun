@@ -7,7 +7,4 @@ functions:
     lang: go-sms-aliyun
     handler: ./fn-sms-aliyun
     image: fn-sms-aliyun:latest
-    build_args:
-      GO111MODULE: on
-      GOPROXY: "https://goproxy.cn,direct"  
 

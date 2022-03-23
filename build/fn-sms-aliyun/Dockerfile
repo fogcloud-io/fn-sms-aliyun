@@ -13,7 +13,7 @@ RUN apk add --no-cache git
 ARG ADDITIONAL_PACKAGE
 ARG CGO_ENABLED=0
 ARG GO111MODULE="off"
-ARG GOPROXY=""
+ARG GOPROXY="https://goproxy.cn,direct"
 ARG GOFLAGS=""
 
 COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
@@ -36,7 +36,7 @@ RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} CGO_ENABLED=${CGO_ENABLED} go test ./.
 
 WORKDIR /go/src/handler
 
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} CGO_ENABLED=${CGO_ENABLED} \
+RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} CGO_ENABLED=${CGO_ENABLED} GOPROXY=${GOPROXY} \
     go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 
 FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.12

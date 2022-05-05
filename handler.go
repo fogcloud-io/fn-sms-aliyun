@@ -1,7 +1,8 @@
-package function
+package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	openapi "github.com/alibabacloud-go/darabonba-openapi/client"
@@ -37,6 +38,17 @@ func Handle(req []byte) string {
 	} else {
 		return resp.String()
 	}
+}
+
+func Handler(w http.ResponseWriter, r *http.Request) {
+	resp, err := sendSMS(PHONE_NUM, SIGN_NAME, TEMPLATE_CODE, TEMPLATE_PARAMS)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(resp.String()))
 }
 
 func createClient(accessKeyId *string, accessKeySecret *string) (_result *dysmsapi20170525.Client, _err error) {
